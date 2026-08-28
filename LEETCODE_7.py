@@ -1,36 +1,34 @@
 class Solution:
     def myAtoi(self, s: str) -> int:
         s = s.strip()  # <-- no whitespace
+        if s == "":
+            return 0
         signed = False
-        if s[0] == "-":  # <-- signedness
+        negative = False
+        if s[0] == "-" or s[0] == "+":  # <-- signedness
             signed = True
+            if s[0] == "-":
+                negative = True
         # but before converting we need to split which we can only
         s_split = list(s)
         if signed:
             s_split.pop(0)
-        result_str = ""
         result = 0
-        # check if the char follows the consignments above
-        try:
-            # try so it catches the moment we hit a string
-            for char in s_split:
-                result_str += char
-                result = int(result_str)
-            if signed:
-                result = result * (-1)
-            if ((-(2**31))) <= result <= (2**31) - 1:
-                pass
+        for char in s_split:
+            if not char.isdigit():
+                break
+            digit = ord(char) - ord("0")  # no int() at all
+            result = result * 10 + digit
+        if negative:
+            result = result * (-1)
+        if ((-(2**31))) <= result <= (2**31) - 1:
+            pass
+        else:
+            if result >= (2**31) - 1:
+                result = (2**31) - 1
             else:
-                if result >= (2**31) - 1:
-                    result = (2**31) - 1
-                else:
-                    result = -(2**31)
-            return result
-            s = int(s)  # <-- conversion
-            s = 100
-        except:
-            # we hit a string
-            return result
+                result = -(2**31)
+        return result
 
 
 """The algorithm for myAtoi(string s) is as follows:
