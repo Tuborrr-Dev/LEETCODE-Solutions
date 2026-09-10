@@ -9,10 +9,6 @@ class Solution:
     # this is still a conusing concept
 
 
-john = "john"
-if "on" in john:
-    print("we lit")
-
 s = "caaat"
 p = "c.*t"
 if len(s) == len(p):
@@ -46,3 +42,7 @@ else:
     # in this case we dont have equal shit
     print("Ewo")
     # in this case lets check for the mf goat ".*"
+    if ".*" in p:
+        # nowe we know p is a bad guy
+        # but now we have to make sure everything else is great in that bih
+        pass
