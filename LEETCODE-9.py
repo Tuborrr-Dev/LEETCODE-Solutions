@@ -1,48 +1,23 @@
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-        """Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+        def solve(i: int, j: int) -> bool:
+            # 1. Base cases (out of bounds checks)
+            if i == len(s) and j == len(p):
+                return True
+            # 2. Check if current character matches (s[i] == p[j] or p[j] == '.')
+            if i < len(s) and (s[i] == p[j] or p[j] == "."):
+                return solve(i + 1, j + 1)
+            # 3. Check for '*' at j + 1 and return Choice 1 or Choice 2
+            if j + 1 < len(p):
+                if p[j + 1] == "*":
+                    choice_1 = solve(i + 1, j)  # <-- compare preceeding with the next
+                    choice_2 = solve(
+                        i, j + 2
+                    )  # <-- skipping the present and ahead to compare with after the fact
+            return choice_1 or choice_2
+            # 4. Normal step (No '*')
 
-        '.' Matches any single character.
-        '*' Matches zero or more of the preceding element."""
-        pass
+            # 5. Default return False
+            return False
 
-    # this is still a conusing concept
-
-
-s = "caaat"
-p = "c.*t"
-if len(s) == len(p):
-    for x in range(len(s)):
-        # check if the characters are the same
-        if s[x] == p[x]:
-            print("pass on")
-        if s[x] != p[x]:
-            if p[x] == ".":
-                print("Pass on")
-            # and if it isnt the case we try to check for *
-            elif p[x] == "*":
-                # now we try to check if there is a preceding element and if it is our of range
-                try:
-                    if s[x] == p[x - 1]:
-                        # now we know the former was the present
-                        print("Pass on")
-                    else:
-                        # now the former isnt the present so what could the former be "." ???
-                        if p[x - 1] == ".":
-                            print("pass on")
-                        else:
-                            # the former is a retard
-                            print("False")
-                except IndexError:
-                    # now we are out of range which means the bih was the first, a real retard i say
-                    print("False")
-            else:
-                print("False")
-else:
-    # in this case we dont have equal shit
-    print("Ewo")
-    # in this case lets check for the mf goat ".*"
-    if ".*" in p:
-        # nowe we know p is a bad guy
-        # but now we have to make sure everything else is great in that bih
-        pass
+        return solve(0, 0)
